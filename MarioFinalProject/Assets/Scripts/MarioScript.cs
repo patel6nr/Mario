@@ -1,25 +1,32 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.PlayerLoop;
 
-public class Mario : MonoBehaviour
+public class MarioScript : MonoBehaviour
 {
-    public Rigidbody2D myRigidbody2D;
+    public Rigidbody2D myRigidbody;
     public float jumpStrength;
-    
+    public LogicScript logic;
+    public bool marioIsAlive = true;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        logic = GameObject.FindGameObjectWithTag("Logic").GetComponent<LogicScript>();
     }
-    //Update is called once per frame
+
+    // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space) == true)
+        if (Input.GetKeyDown(KeyCode.Space) && marioIsAlive)
         {
-            myRigidbody2D.velocity = Vector2.up * jumpStrength;
+            myRigidbody.velocity = Vector2.up * jumpStrength;
         }
     }
-}   
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        logic.gameOver();
+        marioIsAlive = false;
+    }
+}

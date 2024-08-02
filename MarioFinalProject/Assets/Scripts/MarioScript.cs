@@ -12,8 +12,13 @@ public class MarioScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        logic = GameObject.FindGameObjectWithTag("Logic").GetComponent<LogicScript>();
+        logic = GameObject.FindGameObjectWithTag("Logic")?.GetComponent<LogicScript>();
+        if (logic == null)
+        {
+            Debug.LogError("LogicScript component not found!");
+        }
     }
+
 
     // Update is called once per frame
     void Update()
@@ -26,7 +31,21 @@ public class MarioScript : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        logic.gameOver();
+        GameOver();
+    }
+
+    private void OnBecameInvisible()
+    {
+        GameOver();
         marioIsAlive = false;
+    }
+
+    private void GameOver()
+    {
+        if (marioIsAlive)
+        {
+            logic?.gameOver();
+            marioIsAlive = false;
+        }
     }
 }

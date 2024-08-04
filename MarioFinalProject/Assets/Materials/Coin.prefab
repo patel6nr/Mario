@@ -103,6 +103,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: -5
   scoreValue: 1
+  coinCollectSound: {fileID: 8300000, guid: 579a1acbfb6fe08419bc37f2bc3a1ae8, type: 3}
 --- !u!58 &7420089021553964345
 CircleCollider2D:
   m_ObjectHideFlags: 0

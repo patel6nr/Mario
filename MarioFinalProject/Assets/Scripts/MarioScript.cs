@@ -1,6 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using _app.Scripts.Managers;
 
 public class MarioScript : MonoBehaviour
 {
@@ -8,6 +7,7 @@ public class MarioScript : MonoBehaviour
     public float jumpStrength;
     public LogicScript logic;
     public bool marioIsAlive = true;
+    public AudioClip deathSound; // Add this field for the death sound
 
     // Start is called before the first frame update
     void Start()
@@ -18,7 +18,6 @@ public class MarioScript : MonoBehaviour
             Debug.LogError("LogicScript component not found!");
         }
     }
-
 
     // Update is called once per frame
     void Update()
@@ -46,6 +45,27 @@ public class MarioScript : MonoBehaviour
         {
             logic?.gameOver();
             marioIsAlive = false;
+
+            // Play death sound
+            if (deathSound != null)
+            {
+                if (AudioManager.Instance != null)
+                {
+                    AudioManager.Instance.audioSource.clip = deathSound;
+                    AudioManager.Instance.audioSource.Play();
+                    Debug.Log("Death sound played.");
+                }
+                else
+                {
+                    Debug.LogWarning("AudioManager instance is not available.");
+                }
+            }
+            else
+            {
+                Debug.LogWarning("Death sound is not assigned.");
+            }
+
+            // Optionally: Additional game over logic (e.g., stop player movement, show game over screen)
         }
     }
 }
